@@ -12,9 +12,12 @@ import KeychainSwift
 class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var authenticateButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityLabel: UILabel!
     
     //Objects
     let keychain = KeychainSwift()
+    
     
     //Variables
     private var index = 0
@@ -23,6 +26,7 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
     override func viewDidLoad() {
         super.viewDidLoad()
         designButton()
+        activityIndicator.isHidden = true
     }
     
     //MARK: - Functions
@@ -41,14 +45,11 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
             // Foor loop for 10 pictures with a delay of 0.5s between it
             for i in 1..<11 {
                 self.delayWithSeconds(0.5 * Double(i)) {
-                    
                     imagePicker.takePicture()
                 }
                 
             }
         })
-        
-        
     }
     
     func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
@@ -68,16 +69,30 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
     }
     
     func transformToDataAndSaveSecurely(array: [UIImage]){
-        for i in 0..<10 {
-            let image = array[i]
-            if let data = UIImagePNGRepresentation(image) {
-                keychain.set(data, forKey: "Picture: \(i+1)")
-                print("Picture saved")
-                if i == 0 {
-                    self.dismiss(animated: true, completion: nil)
+        DispatchQueue.global(qos: .background).async {
+            print("This is run on the background queue")
+            for i in 0..<10 {
+                let image = array[i]
+                if let data = UIImagePNGRepresentation(image) {
+                    self.keychain.set(data, forKey: "picture\(i+1)")
+                    print("Picture saved")
+                }
+                if i == 9 {
+                    self.activityLabel.isHidden = true
+                    self.activityIndicator.isHidden = true
+                    self.authenticateButton.isEnabled = true
+                    self.authenticateButton.backgroundColor = UIColor(red:1.00, green:0.00, blue:0.00, alpha:1.0)
+                    
+                    self.activityIndicator.stopAnimating()
                 }
             }
         }
+        self.dismiss(animated: true, completion: nil)
+        self.activityIndicator.isHidden = false
+        self.activityLabel.isHidden = false
+        self.authenticateButton.isEnabled = false
+        self.authenticateButton.backgroundColor = UIColor.darkGray
+        self.activityIndicator.startAnimating()
     }
     
     //MARK: -  UI
@@ -85,6 +100,5 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
         //Set Border, Color and White for loginButton
         authenticateButton.layer.cornerRadius = 4
     }
-    
 }
 
