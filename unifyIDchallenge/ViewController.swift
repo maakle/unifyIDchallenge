@@ -18,19 +18,20 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
     //Objects
     let keychain = KeychainSwift()
     
-    
     //Variables
-    private var index = 0
     private var arrayForImages = [UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         designButton()
         activityIndicator.isHidden = true
+        keychain.synchronizable = false
     }
     
     //MARK: - Functions
     @IBAction func authenticateButtonTapped(_ sender: Any) {
+        
+        keychain.clear()
         
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -82,8 +83,8 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
                     self.activityIndicator.isHidden = true
                     self.authenticateButton.isEnabled = true
                     self.authenticateButton.backgroundColor = UIColor(red:1.00, green:0.00, blue:0.00, alpha:1.0)
-                    
                     self.activityIndicator.stopAnimating()
+                    self.arrayForImages.removeAll()
                 }
             }
         }
