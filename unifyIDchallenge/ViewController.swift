@@ -25,14 +25,14 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
         super.viewDidLoad()
         designButton()
         activityIndicator.isHidden = true
+        
+        //Turning of the synchronizing of the keychain function
         keychain.synchronizable = false
     }
     
     //MARK: - Functions
     @IBAction func authenticateButtonTapped(_ sender: Any) {
-        
-        keychain.clear()
-        
+                
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
@@ -75,7 +75,7 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
             for i in 0..<10 {
                 let image = array[i]
                 if let data = UIImagePNGRepresentation(image) {
-                    self.keychain.set(data, forKey: "picture\(i+1)")
+                    self.keychain.set(data, forKey: "picture\(i+1)", withAccess: .accessibleWhenUnlockedThisDeviceOnly) //most restrictive saving option
                     print("Picture saved")
                 }
                 if i == 9 {
@@ -85,6 +85,7 @@ class ViewController: UIViewController,  UIImagePickerControllerDelegate, UINavi
                     self.authenticateButton.backgroundColor = UIColor(red:1.00, green:0.00, blue:0.00, alpha:1.0)
                     self.activityIndicator.stopAnimating()
                     self.arrayForImages.removeAll()
+                    print("Array has been cleared & images are stored secure.")
                 }
             }
         }
