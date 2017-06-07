@@ -711,6 +711,7 @@
 				2D79C9BD1EE75EEA00D57FB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2D79C9BE1EE75EEA00D57FB3 /* Build configuration list for PBXNativeTarget "unifyIDchallengeTests" */ = {
 			isa = XCConfigurationList;
@@ -719,6 +720,7 @@
 				2D79C9C01EE75EEA00D57FB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2D79C9C11EE75EEA00D57FB3 /* Build configuration list for PBXNativeTarget "unifyIDchallengeUITests" */ = {
 			isa = XCConfigurationList;
@@ -727,6 +729,7 @@
 				2D79C9C31EE75EEA00D57FB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
